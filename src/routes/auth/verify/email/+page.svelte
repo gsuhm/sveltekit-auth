@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { APP_NAME } from '$lib/config/constants';
 	export let data;
+
+	$: userEmail = data?.user?.email || '';
 </script>
 
 <section class="container grid items-center gap-6">
@@ -11,9 +13,13 @@
 		<p class="max-w-[700px] text-lg text-muted-foreground">
 			Please check your email account for a message to confirm your email address for {APP_NAME}. If
 			you did not receive the email,
-			<a href="/auth/verify/resend-email-{encodeURIComponent(data.user.email)}" class="underline"
-				>click here</a
-			> to resend it.
+			{#if userEmail}
+				<a href="/auth/verify/resend-email-{encodeURIComponent(userEmail)}" class="underline"
+					>click here</a
+				> to resend it.
+			{:else}
+				<span>Please provide a valid email.</span>
+			{/if}
 		</p>
 	</div>
 </section>
